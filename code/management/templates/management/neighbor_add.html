@@ -1,0 +1,50 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">ADD NEIGHBOR</li>
+</ol>
+
+<!--ADD NEIGHBOR details as form-->
+{% if request.session.is_superuser %}
+    <form name="neighbor_add" id='neighbor_add' action="{% url 'neighbor_add' %}" method="post">
+        <div class="container">
+            {% csrf_token %}
+            <div class="form-group">Space 1: 
+                <select id="space_1" name="space_1">
+                    {% for space in spaces %}
+                    <option value="{{ space.id }}">{{ space.building_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">Space 2: 
+                <select id="space_2" name="space_2">
+                    {% for space in spaces %}
+                    <option value="{{ space.id }}">{{ space.building_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">Route Name: 
+                <input id="route_name" type="text" name="route_name"
+                       title="Route Name"
+                       placeholder="Back Alley"/>
+            </div>
+            <div class="form-group">Route Position: 
+                <input id="route_position" type="text" name="route_position"
+                       title="Route Position"
+                       placeholder="Between Engineering Building A and B"/>
+            </div>
+            <div class="form-group">
+                <button type="submit">Add</button>
+            </div>
+        </div>
+    </form>
+    
+{% elif request.session.is_authenticated %}
+  <p>You are not Administrator.</p> 
+{% else %}
+  <p>You did not logged in.</p> 
+{% endif %}
+
+{% endblock %}

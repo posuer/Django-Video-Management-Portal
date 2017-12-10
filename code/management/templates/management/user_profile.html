@@ -1,0 +1,32 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">USER PROFILE</li>
+</ol>
+
+<!--SHOW USER PROFILE-->
+<table class="table">
+<thead class="thead-inverse">
+  <tr>
+    <th>Edit</th>
+    <th>Password</th>
+    <th>Name</th>
+    <th>Position</th>
+    <th>Phone Number</th>
+  </tr>
+</thead>
+<tbody>
+    <tr>
+      <td><a class="btn btn-default" href="{% url 'user_edit' pk=request.session.id %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+      <td><a class="btn btn-default" href="{% url 'password_change' %}"><span class="glyphicon glyphicon-edit"></span></a></td>
+      <td>{{ user.name }}</td>
+      <td class="align-middle">{{ position }}</td>
+      <td class="align-middle">{{ user.phone_number }}</td>
+    </tr>
+
+</tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">LIST OF USERS</li>
+</ol>
+
+{% if request.session.is_superuser %}
+    
+    <!--ADD USER Function-->
+    <a class="btn btn-default" href="{% url 'user_add' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+
+    <!--SEARCH USER Function as form-->
+    <form method="GET" action="{% url 'user_search' %}" class="inline">
+            <label>Search Type</label>
+            <select id="search_type" name="search_type">         
+              <option  value="username">Username</option>
+              <option  value="name">Name</option>
+              <option  value="phone_number">Phone Number</option>
+              <option  value="in_charged_cctv">In Charged CCTV (ID)</option>
+            </select>
+            <label>Search Field</label>
+            <input type="text" name="search_field"></input>
+
+          <button type="submit" class="btn btn-success">Search</button>
+    </form>
+
+{% if notexist %}
+<p>No search result.</p>
+{% endif %}
+  
+  <!--SHOW USER LIST-->
+  <table class="table">
+  <thead class="thead-inverse">
+    <tr>
+      <th>Edit</th>
+      <th>Delete</th>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Name</th>
+      <th>isSuperManager</th>
+      <th>Phone Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for employee in users %}
+      <tr>
+      
+        <!--EDIT USER Function-->
+        <td><a class="btn btn-default" href="{% url 'user_edit' pk=employee.id %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+        
+        <!--DELETE USER Function-->
+        <td><a class="btn btn-default" href="{% url 'user_delete' pk=employee.id %}"><span class="glyphicon glyphicon-remove"></span></a></td>
+        <td>{{ employee.id }}</td>
+        <td>{{ employee.username }}</td>
+        <td>{{ employee.name }}</td>
+        <td class="align-middle">{{ employee.is_superuser }}</td>
+        <td class="align-middle">{{ employee.phone_number }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+  
+{% else %}
+  <p>You are not Administrator.</p> 
+{% endif %}
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">EDIT SPACE</li>
+</ol>
+
+<!--EDIT SPACE details as form-->
+{% if request.session.is_authenticated %}
+  <form method="POST" action="{% url 'space_edit' pk=space.id %}"class="post-form">
+  	{% csrf_token %}
+        <label>Building Name</label>
+        <input type="text" name="building_name" value ="{{space.building_name}}" class="form-control"></input>
+        <label>Address</label>
+        <input type="text" name="address" value ="{{space.address}}" class="form-control"></input>
+        <label>Floor Number</label>
+        <input type="text" name="floor" value ="{{space.floor}}" class="form-control"></input>
+        <label>Indoor Position</label>
+        <input type="text" name="inroom_position" value ="{{space.inroom_position}}" class="form-control"></input>
+
+    <button type="submit" class="save btn btn-default">Save</button>
+  </form>
+  
+{% else %}
+  <p>You did not logged in.</p> 
+{% endif %}
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">EDIT USER</li>
+</ol>
+
+<!--EDIT USER details as form-->
+{% if request.session.is_authenticated %}
+  <form method="POST" action="{% url 'user_edit' pk=user.id %}"class="post-form">
+  	{% csrf_token %}
+        <label>First Name</label>
+        <input type="text" name="first_name" value ="{{user.first_name}}" class="form-control"></input>
+        <label>Last Name</label>
+        <input type="text" name="last_name" value ="{{user.last_name}}" class="form-control"></input>
+        <label>Phone Number</label>
+        <input type="text" name="phone_number" value ="{{user.phone_number}}" class="form-control"></input>
+
+      <button type="submit" class="btn btn-success">Save</button>
+  </form>
+  
+{% else %}
+  <p>You did not logged in.</p> 
+{% endif %}
+{% endblock %}

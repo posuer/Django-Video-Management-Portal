@@ -1,0 +1,32 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+
+<ol class="breadcrumb my-4">
+	<li class="breadcrumb-item active">Welcome Page</li>
+</ol>
+
+<p>Hello, You're at the CCTV Management Index.</p>
+
+{% if request.session.is_authenticated %}
+	<p><a href="/accounts/user_profile/">User Profile</a></p>
+	<p><a href="/accounts/logout">Logout</a></p>
+
+{% else %}
+	<form class="navbar-form navbar-right" method="POST" action="{% url 'login' %}">
+	{% csrf_token %}
+	<div class="form-group">
+	<input type="text" name="username" id="username" placeholder="Username"class="form-control">
+	</div>
+	<div class="form-group">
+	<input type="password" name="password" placeholder="Password" class="form-control">
+	</div>
+	<button type="submit" class="btn btn-success">Sign in</button>
+	</form>
+{% endif %}
+
+{% if request.session.is_superuser %}
+	<p><a href="/accounts/user_list">User List</a></p>
+{% endif %}
+
+{% endblock %}

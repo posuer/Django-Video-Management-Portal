@@ -1,0 +1,50 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">LIST OF NEIGHBORS</li>
+</ol>
+
+{% if request.session.is_authenticated %}
+  {% if request.session.is_superuser %}
+    <!--ADD NEIGHBOR Function-->
+    <a class="btn btn-default" href="{% url 'neighbor_add' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+  {% endif %}   
+    <!--SHOW NEIGHBOR LIST-->
+    <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+          {% if request.session.is_superuser %}
+            <th>Edit</th>
+            <th>Delete</th>
+          {% endif %}
+            <th>Neighbor ID</th>
+            <th>Neighbor</th>
+            <th>Route Name</th>
+            <th>Route Position</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for neighbor in neighbors %}
+            <tr>
+            {% if request.session.is_superuser %}
+              <!--EDIT NEIGHBOR Function-->
+              <td><a class="btn btn-default" href="{% url 'neighbor_edit' pk=neighbor.id %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+              <!--DELETE NEIGHBOR Function-->
+              <td><a class="btn btn-default" href="{% url 'neighbor_delete' pk=neighbor.id %}"><span class="glyphicon glyphicon-remove"></span></a></td>
+            {% endif %}
+              <td>{{ neighbor.id }}</td>
+              <td>{{ neighbor.space_1 }}-{{ neighbor.route_name }}-{{ neighbor.space_2 }}</td>
+              <td class="align-middle">{{ neighbor.route_name }}</td>
+              <td class="align-middle">{{ neighbor.route_position }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+    
+{% else %}
+  <p>You did not logged in.</p> 
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">ADD SEQUENCE</li>
+</ol>
+{% if error %}
+  <p>Sequence already exist</p> 
+{% endif %}
+<!--ADD SEQUENCE details as form-->
+{% if request.session.is_superuser %}
+    <form name="sequence_add" id='sequence_add' action="{% url 'sequence_add' %}" method="post">
+        <div class="container">
+            {% csrf_token %}
+            <div class="form-group">Neighbor 1: 
+                <select id="neighbor_1" name="neighbor_1">
+                    {% for neighbor in neighbors %}
+                    <option value="{{ neighbor.id }}">{{neighbor.s1_building_name}}-{{neighbor.route_name}}-{{neighbor.s2_building_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">Neighbor 2: 
+                <select id="neighbor_2" name="neighbor_2">
+                    {% for neighbor in neighbors %}
+                    <option value="{{ neighbor.id }}">{{neighbor.s1_building_name}}-{{neighbor.route_name}}-{{neighbor.s2_building_name}}</option>
+                    {% endfor %}
+                </select>                
+            </div>
+            <div class="form-group">
+                <button type="submit">Add</button>
+            </div>
+        </div>
+    </form>
+    
+{% else %}
+  <p>You are not Administrator.</p> 
+{% endif %}
+
+{% endblock %}

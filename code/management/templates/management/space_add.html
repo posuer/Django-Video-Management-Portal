@@ -1,0 +1,51 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">ADD SPACE</li>
+</ol>
+
+<!--ADD SPACE details as form-->
+{% if request.session.is_authenticated %}
+    <form name="space_add" id='space_add' action="{% url 'space_add' %}" method="post">
+        <div class="container">
+            {% csrf_token %}
+            </div>
+            <div class="form-group">Building Name: 
+                <input id="building_name" type="text" name="building_name"
+                       title="Building Name"
+                       placeholder="Engineering Building A"/>
+            </div>
+            <div class="form-group">Address: 
+                <input id="address" type="text" name="address"
+                       title="Address"
+                       placeholder="50 Yonsei-ro, Sinchon-dong"/>
+            </div>
+            <div class="form-group">Floor Number: 
+                <input id="floor" type="number" name="floor"
+                       title="Floor Number"/>
+            </div>
+            <div class="form-group">Indoor Position: 
+                <input id="inroom_position" type="text" name="inroom_position"
+                       title="indoor_position"
+                       placeholder="In front of elevator"/>
+            </div>
+            <div class="form-group">CCTV ID: 
+                <select id="cctv_id" name="cctv_id">
+                    {% for cctv in cctvs %}
+                    <option value="{{ cctv.id }}">{{ cctv.id }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit">Add</button>
+            </div>
+        </div>
+    </form>
+    
+{% else %}
+  <p>You did not logged in.</p> 
+{% endif %}
+
+{% endblock %}

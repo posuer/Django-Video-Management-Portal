@@ -1,0 +1,47 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">LIST OF SEQUENCES</li>
+</ol>
+{% if request.session.is_authenticated %}
+  {% if request.session.is_superuser %}
+    <!--ADD SEQUENCE Function-->
+    <a class="btn btn-default" href="{% url 'sequence_add' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+  {% endif %}    
+    <!--SHOW SEQUENCE LIST-->
+    <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+          {% if request.session.is_superuser %}
+            <th>Edit</th>
+            <th>Delete</th>
+          {% endif %}
+            <th>ID</th>
+            <th>Neighbor 1</th>
+            <th>Neighbor 2</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sequence in sequences %}
+            <tr>
+            {% if request.session.is_superuser %}
+              <!--EDIT SEQUENCE Function-->
+              <td><a class="btn btn-default" href="{% url 'sequence_edit' pk=sequence.id %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+              
+              <!--DELETE SEQUENCE Function-->
+              <td><a class="btn btn-default" href="{% url 'sequence_delete' pk=sequence.id %}"><span class="glyphicon glyphicon-remove"></span></a></td>
+            {% endif %}
+              <td class="align-middle">{{sequence.id}}</td>
+              <td >{{sequence.neighbor1_space1}} -- {{sequence.neighbor_1}} -- {{sequence.neighbor1_space2}}</td>
+              <td class="align-middle">{{sequence.neighbor2_space1}} -- {{sequence.neighbor_2}} -- {{sequence.neighbor2_space2}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+  <p>You did not logged in.</p> 
+{% endif %}
+
+{% endblock %}

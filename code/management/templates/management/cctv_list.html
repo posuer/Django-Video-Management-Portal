@@ -1,0 +1,72 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">LIST OF CCTVS</li>
+</ol>
+
+{% if request.session.is_authenticated %}
+    {% if request.session.is_superuser %}
+        <!--ADD CCTV Function-->
+        <a class="btn btn-default" href="{% url 'cctv_add' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+        <p> </p>
+        <!--SEARCH CCTV Function as form-->
+        <form method="GET" action="{% url 'cctv_search' %}" class="inline">
+                <label>Search Type</label>
+                <select id="search_type" name="search_type">         
+                  <option  value="model_name">Model Name</option>
+                  <option  value="install_date">Installed Date</option>
+                  <option  value="name">In Charge User (Name)</option>
+                </select>
+                <label>Search Field</label>
+                <input type="text" name="search_field"></input>
+
+              <button type="submit" class="btn btn-success">Search</button>
+        </form>
+
+    {% endif %}
+    {% if notexist %}
+        <p>No search result.</p>
+    {% endif %}
+    
+    <!--SHOW CCTV LIST-->
+    <table class="table">
+    <thead class="thead-inverse">
+      <tr>
+    {% if request.session.is_superuser %}
+        <th>Edit</th>
+        <th>Delete</th>
+    {% endif %}
+        <th>ID</th>
+        <th>Model</th>
+        <th>Installed Date</th>
+        <th>User In Charge</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for cctv in cctvs %}
+          <tr>
+          {% if request.session.is_superuser %}
+          
+            <!--EDIT CCTV Function-->
+            <td><a class="btn btn-default" href="{% url 'cctv_edit' pk=cctv.id %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+            
+            <!--DELETE CCTV Function-->
+            <td><a class="btn btn-default" href="{% url 'cctv_delete' pk=cctv.id %}"><span class="glyphicon glyphicon-remove"></span></a></td>
+          {% endif %}
+          
+            <td>{{ cctv.id }}</td>
+            <td>{{ cctv.model_name }}</td>
+            <td class="align-middle">{{ cctv.install_date }}</td>
+            <td class="align-middle">{{ cctv.in_charge_user }}</td>
+          </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+{% else %}
+  <p>You did not logged in.</p> 
+{% endif %}
+
+
+{% endblock %}

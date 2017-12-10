@@ -1,0 +1,47 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">UPLOAD VIDEO AND LOG</li>
+</ol>
+
+<!--ADD VIDEO details as form-->
+{% if request.session.is_authenticated %}
+ <form method="POST" action="{% url 'video_add' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+    <label>CCTV</label>
+    <select id="cctv_id" name="cctv_id">
+        {% for cctv in cctvs %}
+        <option value="{{ cctv.id }}">{{ cctv.id }}</option>
+        {% endfor %}
+    </select>
+    </div>
+    <div class="form-group">
+    <label>Space</label>
+    <select id="space_id" name="space_id">
+        {% for space in spaces %}
+        <option value="{{ space.id }}">{{ space.id }}</option>
+        {% endfor %}
+    </select>
+    </div>
+    <div class="form-group">
+    <label>Date Time</label>
+    <input id="datetime" name="datetime" type="datetime-local">
+    </div>
+    <div class="form-group">
+    <label>Video File</label>
+    <input type="file" name="fileVideo">
+    </div>
+    <div class="form-group">
+    <label>Log File</label>
+    <input type="file" name="fileLog">
+    </div>
+    <button type="submit" class="btn btn-success">Upload</button>
+</form>
+<p>{{url}}</p>
+
+{% else %}
+  <p>You did not logged in.</p> 
+{% endif %}
+{% endblock %}

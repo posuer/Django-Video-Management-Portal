@@ -1,0 +1,54 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">LIST OF SPACES</li>
+</ol>
+
+{% if request.session.is_authenticated %}
+
+    <!--ADD SPACE Function-->
+    <a class="btn btn-default" href="{% url 'space_add' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+    
+    <!--SHOW SPACE LIST-->
+    <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>Space ID</th>
+            <th>Building Name</th>
+            <th>CCTV ID</th>
+            <th>User In-Charged</th>
+            <th>Address</th>
+            <th>Floor</th>
+            <th>Indoor Position</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for space in spaces %}
+          <tr>
+          
+            <!--EDIT SPACE Function-->
+            <td><a class="btn btn-default" href="{% url 'space_edit' pk=space.id %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+            
+            <!--DELETE SPACE Function-->
+            <td><a class="btn btn-default" href="{% url 'space_delete' pk=space.id %}"><span class="glyphicon glyphicon-remove"></span></a></td>
+            <td>{{ space.id }}</td>
+            <td>{{ space.building_name }}</td>
+            <td class="align-middle">{{ space.cctv_id }}</td>
+            <td class="align-middle">{{ space.in_charge_user }}</td>
+            <td class="align-middle">{{ space.address }}</td>
+            <td class="align-middle">{{ space.floor }}</td>
+            <td class="align-middle">{{ space.inroom_position }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+  <p>You did not logged in.</p> 
+{% endif %}
+
+{% endblock %}
+

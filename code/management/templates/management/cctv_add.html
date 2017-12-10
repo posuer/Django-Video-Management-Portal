@@ -1,0 +1,48 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">ADD CCTV</li>
+</ol>
+
+<!--ADD CCTV details as form-->
+{% if request.session.is_superuser %}
+    <form name="cctv_add" id='cctv_add' action="{% url 'cctv_add' %}" method="post">
+        <div class="container">
+            {% csrf_token %}
+            <div class="form-group">Model Name: 
+                <input id="model_name" type="text" name="model_name"
+                       title="Model Name"
+                       placeholder="Samsung"/>
+            </div>
+            <div class="form-group">Date Installed: 
+                <input id="install_date" type="date" name="install_date"
+                       title="Date Installed"/>
+            </div>
+            <div class="form-group">User In Charge's Name: 
+                <select id="in_charge_user" name="in_charge_user">
+                    {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Add</button>
+            </div>
+        </div>
+    </form>
+    <h4>Add by CSV file</h4>
+    <form name="cctv_add_csv" id='cctv_add_csv' action="{% url 'cctv_add' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="fileCCTV">
+        <p> </p>
+        <button type="submit" class="btn btn-success">Add</button>
+    </form>
+{% elif request.session.is_authenticated %}
+  <p>You are not Administrator.</p> 
+{% else %}
+  <p>You did not logged in.</p> 
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">EDIT NEIGHBOR</li>
+</ol>
+
+<!--EDIT NEIGHBOR details as form-->
+{% if request.session.is_superuser %}
+  <form method="POST" action="{% url 'neighbor_edit' pk=neighbor.id %}"class="post-form">
+  	{% csrf_token %}
+        <div class="container">	
+		<div class="form-group">Space 1: 
+                	<select id="space_1" name="space_1">
+                	    {% for space in spaces %}
+                            {% if neighbor.space_1_id == space.id %}
+                                <option selected value="{{ space.id }}">{{ space.building_name }}</option>
+                            {% else %}
+                                <option value="{{ space.id }}">{{ space.building_name }}</option>
+                            {% endif %}
+                	    {% endfor %}
+               		</select>
+		</div>
+		<div class="form-group">Space 2: 
+                	<select id="space_2" name="space_2">
+                	    {% for space in spaces %}
+                            {% if neighbor.space_2_id == space.id %}
+                                <option selected value="{{ space.id }}">{{ space.building_name }}</option>
+                            {% else %}
+                                <option value="{{ space.id }}">{{ space.building_name }}</option>
+                            {% endif %}
+                	    {% endfor %}
+               		</select>
+		</div>
+        </div>
+        <label>Route Name</label>
+        <input type="text" name="route_name" value ="{{ neighbor.route_name }}" class="form-control"></input>
+        <label>Route Position</label>
+        <input type="text" name="route_position" value ="{{ neighbor.route_position }}" class="form-control"></input>
+
+    <button type="submit" class="save btn btn-default">Save</button>
+  </form>
+  
+{% elif request.session.is_authenticated %}
+  <p>You are not Administrator.</p> 
+{% else %}
+  <p>You did not logged in.</p> 
+{% endif %}
+{% endblock %}

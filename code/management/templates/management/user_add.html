@@ -1,0 +1,29 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">ADD USER</li>
+</ol>
+
+<!--ADD USER details as form-->
+{% if request.session.is_authenticated %}
+  <form method="POST" action="{% url 'user_add' %}" class="post-form">
+    {% csrf_token %}
+        <label>Username</label>
+        <input type="text" name="username" class="form-control"></input>
+        <label>Password</label>
+        <input type="password" name="password" class="form-control"></input>
+        <label>First Name</label>
+        <input type="text" name="first_name" class="form-control"></input>
+        <label>Last Name</label>
+        <input type="text" name="last_name" class="form-control"></input>
+        <label>Phone Number</label>
+        <input type="text" name="phone_number" class="form-control"></input>
+      <button type="submit" class="btn btn-success">Save</button>
+  </form>
+  
+{% else %}
+  <p>You did not logged in.</p> 
+{% endif %}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% load staticfiles %}
+<html>
+    <head>
+        <title>CCTV Management System</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    </head>
+    <body>
+        <div class="container">
+            <div class="page-header">
+                <h1><a href="/">CCTV Management System</a></h1>
+                {% if request.session.is_authenticated %}
+                    <table class="table">
+                    <tbody>
+                        <tr>
+                          <td><a href="/">Home</a></td>
+                          <td><a href="/cctv_list">CCTV</a></td>
+                          <td><a href="/space_list">Space</a></td>
+                          <td><a href="/video_list">Video</a></td>
+                          <td><a href="/neighbor_list">Neighbor</a></td>
+                          <td><a href="/sequence_list">Sequence</a></td>
+                        </tr>
+                    </tbody>
+                    </table>
+                    <p>Hi, {{ request.session.username }}</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="content container">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <div class="container">
+            <footer class="footer">
+                <p>&copy; Yuhesa 2017</p>
+            </footer>
+        </div>
+    </body>
+</html>

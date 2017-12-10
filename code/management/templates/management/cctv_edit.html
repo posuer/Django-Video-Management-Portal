@@ -1,0 +1,38 @@
+{% extends "base.html" %} 
+
+{% block content %} 
+
+<ol class="breadcrumb my-4">
+    <li class="breadcrumb-item active">EDIT CCTV</li>
+</ol>
+
+<!--EDIT CCTV details as form-->
+{% if request.session.is_superuser %}
+  <form method="POST" action="{% url 'cctv_edit' pk=cctv.id %}"class="post-form">
+  	{% csrf_token %}
+        <label>Model Name</label>
+        <input type="text" name="model_name" value ="{{cctv.model_name}}" class="form-control"></input>
+        <label>Installed Date</label>
+        <input type="date" name="install_date" value ="{{cctv.install_date|date:'Y-m-d'}}" class="form-control"></input>
+        <div class="container">	
+		<div class="form-group">In-Charge User ID: 
+                	<select id="in_charge_user" name="in_charge_user">
+                	    {% for user in users %}
+                            {% if cctv.in_charge_user_id == user.id %}
+                                <option selected value="{{user.id}}">{{ user.username }}</option>
+                            {% else %}
+                                <option  value="{{user.id}}">{{ user.username }}</option>
+                            {% endif %}
+                	    {% endfor %}
+               		</select>
+		</div>
+        </div>
+    <button type="submit" class="save btn btn-default">Save</button>
+  </form>
+  
+{% elif request.session.is_authenticated %}
+  <p>You are not Administrator.</p> 
+{% else %}
+  <p>You did not logged in.</p> 
+{% endif %}
+{% endblock %}
